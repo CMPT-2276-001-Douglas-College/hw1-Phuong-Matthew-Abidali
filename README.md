@@ -2,3 +2,4 @@
 CMPT 2276 Assignment 1 Repo
 
 1. Matthew Davies
+2. Abidali Sarangwala
