@@ -99,9 +99,14 @@ int main()
 	int repCount = 0;
 	while (repCount == 0)
 	{
-		cout << "Enter number of representatives: ";
+		cout << "Enter number of representatives (any input other than a number defaults to 435): ";
 		cin >> repCount;
-		if (repCount < 1 || repCount > 1000)
+		if (cin.fail())
+		{
+			repCount = 435;
+			break;
+		}
+		if (repCount < 1)
 		{
 			cin.clear();
 			cin.ignore(10000, '\n');
