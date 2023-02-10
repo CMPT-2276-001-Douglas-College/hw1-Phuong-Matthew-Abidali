@@ -1,3 +1,1 @@
-﻿  Source.cpp
-C:\Users\LostCauseSauce\Documents\CMPT2276Assignment01\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\Source.cpp(27,37): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  Assignment01Part02.vcxproj -> C:\Users\LostCauseSauce\Documents\CMPT2276Assignment01\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\x64\Debug\Assignment01Part02.exe
+﻿  Assignment01Part02.vcxproj -> D:\CMPT 2276\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\x64\Debug\Assignment01Part02.exe

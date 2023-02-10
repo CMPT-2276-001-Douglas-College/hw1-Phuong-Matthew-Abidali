@@ -4,6 +4,8 @@
 #include <utility>
 #include <string>
 #include <stdexcept>
+#include "HamiltonAlgorithm.h"
+#include "writeToFile.h"
 
 using namespace std;
 
@@ -114,5 +116,6 @@ int main()
 		}
 	}
 
+	hamiltonApportionment(inputData, repCount);
 
 }
