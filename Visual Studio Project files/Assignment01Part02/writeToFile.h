@@ -1,3 +1,6 @@
+#ifndef WRITETOFILE_H
+#define WRITETOFILE_H
+
 #include <fstream>
 #include <string>
 #include <vector>
@@ -15,3 +18,5 @@ void writeToFile(string fileName, vector<pair<string, pair<int, float>>> data) {
 	fileOutput << "test";
 	fileOutput.close();
 }
+
+#endif
