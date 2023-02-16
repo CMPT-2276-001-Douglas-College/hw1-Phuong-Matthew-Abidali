@@ -5,8 +5,10 @@
 #include <string>
 #include <algorithm>
 #include <stdexcept>
+#include <OpenXLSX.hpp>
 
 using namespace std;
+using namespace OpenXLSX;
 
 vector<pair<string, int>> readFile(string, vector<int>&);
 vector<pair<string, pair<int, float>>> hamiltonApportionment(const vector<pair<string, int>> &, const int &);
@@ -15,9 +17,20 @@ void writeToFile(string, vector<pair<string, pair<int, float>>>);
 bool fileExists(const std::string& );
 long int getRep(const long int);
 
+void test() {
+	XLDocument doc;
+	doc.create("Spreadsheet.xlsx");
+	auto wks = doc.workbook().worksheet("Sheet1");
+
+	wks.cell("A1").value() = "Hello, OpenXLSX!";
+
+	doc.save();
+	cout << "Test completed.\n";
+}
 
 int main()
 {
+	test();
 	string anotherFile = "Y";
 	while (anotherFile == "Y" || anotherFile == "y") {
 		vector<pair<string, int>> inputData;
