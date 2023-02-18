@@ -1,6 +1,6 @@
 ﻿  Source.cpp
-C:\Users\LostCauseSauce\Documents\CMPT2276Assignment01\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\Source.cpp(147,37): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\LostCauseSauce\Documents\CMPT2276Assignment01\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\Source.cpp(221,21): warning C4244: 'initializing': conversion from 'long' to 'float', possible loss of data
-C:\Users\LostCauseSauce\Documents\CMPT2276Assignment01\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\Source.cpp(268,35): warning C4101: 'ex': unreferenced local variable
-C:\Users\LostCauseSauce\Documents\CMPT2276Assignment01\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\Source.cpp(302,33): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\LostCauseSauce\Documents\CMPT2276Assignment01\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\Source.cpp(129,37): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\LostCauseSauce\Documents\CMPT2276Assignment01\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\Source.cpp(280,21): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\LostCauseSauce\Documents\CMPT2276Assignment01\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\Source.cpp(330,33): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\LostCauseSauce\Documents\CMPT2276Assignment01\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\Source.cpp(369,34): warning C4101: 'ex': unreferenced local variable
   Assignment01Part02.vcxproj -> C:\Users\LostCauseSauce\Documents\CMPT2276Assignment01\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\x64\Debug\Assignment01Part02.exe
