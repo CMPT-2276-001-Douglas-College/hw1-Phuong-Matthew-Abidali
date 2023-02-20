@@ -1,6 +1,6 @@
 ﻿  Source.cpp
-D:\CMPT 2276\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\Source.cpp(134,37): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\CMPT 2276\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\Source.cpp(208,21): warning C4244: 'initializing': conversion from 'long' to 'float', possible loss of data
-D:\CMPT 2276\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\Source.cpp(255,35): warning C4101: 'ex': unreferenced local variable
-D:\CMPT 2276\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\Source.cpp(289,33): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  Assignment01Part02.vcxproj -> D:\CMPT 2276\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\x64\Debug\Assignment01Part02.exe
+C:\Users\LostCauseSauce\Documents\CMPT2276Assignment01\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\Source.cpp(129,37): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\LostCauseSauce\Documents\CMPT2276Assignment01\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\Source.cpp(280,21): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\LostCauseSauce\Documents\CMPT2276Assignment01\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\Source.cpp(330,33): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\LostCauseSauce\Documents\CMPT2276Assignment01\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\Source.cpp(369,34): warning C4101: 'ex': unreferenced local variable
+  Assignment01Part02.vcxproj -> C:\Users\LostCauseSauce\Documents\CMPT2276Assignment01\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\x64\Debug\Assignment01Part02.exe

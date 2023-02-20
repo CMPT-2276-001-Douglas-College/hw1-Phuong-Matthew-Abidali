@@ -5,16 +5,21 @@
 #include <string>
 #include <algorithm>
 #include <stdexcept>
+#include <OpenXLSX.hpp>
 
 using namespace std;
+using namespace OpenXLSX;
 
 vector<pair<string, int>> readFile(string, vector<int>&);
+vector<pair<string, int>> readCSVfile(string, vector<int>&);
+vector<pair<string, int>> readXLSXfile(string, vector<int>&);
 vector<pair<string, pair<int, float>>> hamiltonApportionment(const vector<pair<string, int>> &, const int &);
-bool OutputDataToFile(const string&, const vector<pair<string, pair<int, float>>>&);
-void writeToFile(string, vector<pair<string, pair<int, float>>>);
+bool outputDataToFile(const string&, const vector<pair<string, pair<int, float>>>&);
+void writeToCSVfile(string, vector<pair<string, pair<int, float>>>);
+void writeToXLSXfile(string, vector<pair<string, pair<int, float>>>);
 bool fileExists(const std::string& );
-long int getRep(const long int);
-
+int getRep(const int);
+string getSheetName(bool);
 
 int main()
 {
@@ -27,7 +32,7 @@ int main()
 		while (true) {
 			try
 			{
-				cout << "Enter full csv File path: ";
+				cout << "Enter the CSV or XLSX file path: ";
 				getline(cin, input);
 				inputData = readFile(input, errorLines);
 				filePath = input.substr(0, input.rfind('\\') + 1);
@@ -36,32 +41,34 @@ int main()
 			catch (exception& e)
 			{
 				cout << e.what() << endl;
-				cout << "Would you like to try again (type Y or y to proceed, any other key to terminate) ? ";
+				cout << "Would you like to try again? Type Y or y to proceed, any other key to terminate: ";
 				getline(cin, input);
-				if (input != "y" && input != "Y") {
+				if (input != "Y" && input != "y") {
 					return 0;
 				}
 				cout << endl << endl;
 			}
 		}
-		cout << endl << "File Read." << endl;
-		cout << "WARNING : States on line numbers ";
-		for (int i = 0; i < errorLines.size(); i++)
+		cout << endl << "File has been read." << endl;
+		if (errorLines.size() > 0)
 		{
-			if (i == errorLines.size() - 1)
-				cout << errorLines[i];
-			else
-				cout << errorLines[i] << ", ";
+			cout << "WARNING: States on line number ";
+			for (int i = 0; i < errorLines.size(); i++)
+			{
+				if (i == errorLines.size() - 1)
+					cout << errorLines[i];
+				else
+					cout << errorLines[i] << ", ";
+			}
+			cout << " have invalid data in state name and/or state population. These lines will be skipped.\n\n";
 		}
-		cout << " have invalid data in State Name and/or State population. State of population 0 is also considered invalid. These lines will be SKIPPED." << endl << endl;
-
-		long int totalPopulation = 0;
+		int totalPopulation = 0;
 		for (auto itr = inputData.begin(); itr != inputData.end(); itr++) {
 			totalPopulation += itr->second;
 		}
-		cout << "total Population is " << totalPopulation << endl;
+		cout << "Total population is " << totalPopulation << endl;
 		
-		long int repCount;
+		int repCount;
 		try {
 			repCount = getRep(totalPopulation);
 		}
@@ -79,48 +86,31 @@ int main()
 		}
 		bool dataWrittenSuccessfully = false;
 		while(!dataWrittenSuccessfully)
-			dataWrittenSuccessfully = OutputDataToFile(filePath, outputData);
+			dataWrittenSuccessfully = outputDataToFile(filePath, outputData);
 
-		cout << endl << "Would you like to run another file? Y (yes) or N (No)? : ";
+		cout << endl << "Would you like to run another file? Type Y or y to proceed, any other key to terminate:  ";
 		getline(cin, anotherFile);
 
 	}
-	cout << " THANK YOU!" << endl;
+	cout << "Thank you for using our program." << endl;
 	return 0;
-}
-
-long int getRep(const long int totalPopulation) {
-	string input;
-	long int repCount = 0;
-	while (repCount == 0)
-	{
-		cout << "Enter number of representatives (default is 435): ";
-		getline(cin, input);
-		if (input == "")
-			repCount = 435;
-		else if(find_if(input.begin(), input.end(), [](char c) {return !isdigit(c); }) != input.end())
-			cout << "Invalid number of representatives.\n";
-		else{
-			repCount = stoi(input) >= 1 ? stoi(input) : 0;
-		}
-		if (totalPopulation < repCount) {
-			cout << "Total population can not be less than representatives." << endl;
-			repCount = 0;
-		}
-	}
-
-	cout << "Representative count is set to " << repCount << endl << endl;
-	return repCount;
-
 }
 
 vector<pair<string, int>> readFile(string filePath, vector<int>& errorLines)
 {
-	if (filePath.size() < 5 || filePath.substr(filePath.size() - 4) != ".csv")
-		throw invalid_argument("Invalid file type.\n");
+	if (filePath.size() > 4 && filePath.substr(filePath.size() - 4) == ".csv")
+		return readCSVfile(filePath, errorLines);
+	else if (filePath.size() > 5 && filePath.substr(filePath.size() - 5) == ".xlsx")
+		return readXLSXfile(filePath, errorLines);
+	throw invalid_argument("Invalid file type.\n");
+	
+}
+
+vector<pair<string, int>> readCSVfile(string filePath, vector<int>& errorLines)
+{
 	ifstream myFile(filePath);
 	if (myFile.fail())
-		throw invalid_argument("No Such File exists at this location.\n");
+		throw invalid_argument("File doesn't exists at this location.\n");
 	string name;
 	string number;
 	string line;
@@ -194,9 +184,86 @@ vector<pair<string, int>> readFile(string filePath, vector<int>& errorLines)
 	return toReturn;
 }
 
+vector<pair<string, int>> readXLSXfile(const string filePath, vector<int>& errorLines)
+{
+	XLDocument document;
+	try
+	{
+		document.open(filePath);
+	}
+	catch (...)
+	{
+		throw invalid_argument("File doesn't exists at this location.\n");
+	}
+	string name;
+	int number;
+	int lineNumber = 2;
+	vector<pair<string, int>> toReturn;
+	OpenXLSX::XLWorksheet worksheet;
+	bool firstTime = true;
+	while (true)
+	{
+		try
+		{
+			string fileName = getSheetName(firstTime);
+			worksheet = document.workbook().worksheet(fileName);
+			break;
+		}
+		catch (...)
+		{
+			firstTime = false;
+		}
+	}
+	auto range = worksheet.range(XLCellReference("A2"), XLCellReference(worksheet.rowCount(), 2));
+
+	bool isFirstColumn = true;
+	int currentLine = lineNumber;
+	for (auto& cell : range)
+	{
+		if (isFirstColumn)
+		{
+			isFirstColumn = false;
+			name = cell.value().get<string>();
+			for (int i = 0; i < name.size(); i++)
+				if (!isalpha(name[i]) && name[i] != ' ')
+				{
+					errorLines.push_back(lineNumber++);
+					break;
+				}
+		}
+		else if ((!isFirstColumn) && currentLine == lineNumber)
+		{
+			isFirstColumn = true;
+			if (cell.value().typeAsString() != "integer")
+			{
+				errorLines.push_back(lineNumber++);
+				continue;
+			}
+			number = cell.value().get<int>();
+			if (number < 1)
+			{
+				errorLines.push_back(lineNumber++);
+				continue;
+			}
+			toReturn.push_back(make_pair(name, number));
+			lineNumber++;
+			name = "";
+			number = 0;
+		}
+		else
+			isFirstColumn = true;
+		if (isFirstColumn)
+			currentLine++;
+	}
+
+	if (toReturn.size() == 0)
+		throw invalid_argument("Your input file has no valid data.\n");
+	return toReturn;
+}
+
 vector<pair<string, pair<int, float>>> hamiltonApportionment(const vector<pair<string, int>> &data,const int &repCount) {
 	//calculate the total population (sum of all states)
-	long int totalPopulation = 0;
+	int totalPopulation = 0;
 	for (auto i = data.begin(); i != data.end(); i++) {
 		totalPopulation += i->second;
 	}
@@ -237,38 +304,7 @@ vector<pair<string, pair<int, float>>> hamiltonApportionment(const vector<pair<s
 	return Floor_Remain;
 }
 
-
-// Writes the data in file 
-void writeToFile(string filePath, vector<pair<string, pair<int, float>>> data) {
-	if (filePath.size() < 5 || filePath.substr(filePath.size() - 4) != ".csv")	//only write to csv files
-		throw runtime_error("Invalid file type.\n");
-	ofstream fileOutput;
-		try
-		{
-			fileOutput.exceptions(ofstream::failbit | ofstream::badbit);
-			fileOutput.open(filePath);
-			fileOutput.exceptions(std::ofstream::goodbit);
-			fileOutput << "State, Representatives\n";
-			for (auto i = data.begin(); i != data.end(); i++)
-				fileOutput << i->first << ',' << i->second.first << '\n';
-		}
-		catch (ofstream::failure const& ex)
-		{
-			throw runtime_error("File can not be open or connected to stream. Please try another valid file.");
-		}
-	
-	fileOutput.close();
-}
-
-inline bool fileExists(const std::string& fileName) {
-	struct stat buffer;
-	if (stat(fileName.c_str(), &buffer) == 0) {
-		return true;
-	}else
-		return false;
-}
-
-bool OutputDataToFile(const string & filePath,const vector<pair<string, pair<int, float>>> & outputData) {
+bool outputDataToFile(const string & filePath,const vector<pair<string, pair<int, float>>> & outputData) {
 	string fileName;
 	string input;
 	try
@@ -297,8 +333,7 @@ bool OutputDataToFile(const string & filePath,const vector<pair<string, pair<int
 				fileName += "_outPutReps_1";
 			}
 		}
-		
-		writeToFile(fileName, outputData);
+		writeToCSVfile(fileName, outputData);
 		cout << endl << "Data written to file : " << fileName << endl;
 		cout << endl << endl << "END OF PROGRAM" << endl;
 	}
@@ -309,4 +344,83 @@ bool OutputDataToFile(const string & filePath,const vector<pair<string, pair<int
 		return false;
 	}
 	return true;
+}
+
+// Writes the data in file 
+void writeToCSVfile(string filePath, vector<pair<string, pair<int, float>>> data) {
+	if (filePath.size() < 5 || filePath.substr(filePath.size() - 4) != ".csv")	//only write to csv files
+		throw runtime_error("Invalid file type.\n");
+	ofstream fileOutput;
+	try
+	{
+		fileOutput.exceptions(ofstream::failbit | ofstream::badbit);
+		fileOutput.open(filePath);
+		fileOutput.exceptions(std::ofstream::goodbit);
+		fileOutput << "State, Representatives\n";
+		for (auto i = data.begin(); i != data.end(); i++)
+			fileOutput << i->first << ',' << i->second.first << '\n';
+	}
+	catch (ofstream::failure const& ex)
+	{
+		throw runtime_error("File can not be open or connected to stream. Please try another valid file.");
+	}
+
+	fileOutput.close();
+}
+
+void writeToXLSXfile(string filePath, vector<pair<string, pair<int, float>>> data)
+{
+	XLDocument document;
+	document.create(filePath);
+	auto worksheet = document.workbook().worksheet("Sheet1");
+	worksheet.cell("A1").value() = "State";
+	worksheet.cell("B1").value() = "Representatives";
+	for (int i = 2; i - 2 < data.size(); i++)
+	{
+		worksheet.cell("A" + to_string(i)).value() = data[i - 2].first;
+		worksheet.cell("B" + to_string(i)).value() = data[i - 2].second.first;
+	}
+	document.save();
+	document.close();
+}
+
+inline bool fileExists(const std::string& fileName) {
+	struct stat buffer;
+	if (stat(fileName.c_str(), &buffer) == 0)
+		return true;
+	else
+		return false;
+}
+
+int getRep(const int totalPopulation) {
+	string input;
+	int repCount = 0;
+	while (repCount == 0)
+	{
+		cout << "Enter number of representatives (default is 435): ";
+		getline(cin, input);
+		if (input == "")
+			repCount = 435;
+		else if (find_if(input.begin(), input.end(), [](char c) {return !isdigit(c); }) != input.end())
+			cout << "Invalid number of representatives.\n";
+		else
+			repCount = stoi(input) >= 1 ? stoi(input) : 0;
+		if (totalPopulation < repCount) {
+			cout << "Total population can not be less than the number of representatives.\n";
+			repCount = 0;
+		}
+	}
+
+	cout << "Representative count is set to " << repCount << endl << endl;
+	return repCount;
+}
+
+string getSheetName(bool firstTime = true)
+{
+	if (firstTime == false)
+		cout << "Could not find sheet name.\n";
+	cout << "Enter sheet name: ";
+	string toReturn;
+	getline(cin, toReturn);
+	return toReturn;
 }
