@@ -1,6 +1,14 @@
 ﻿  Source.cpp
-C:\Users\LostCauseSauce\Documents\CMPT2276Assignment01\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\Source.cpp(129,37): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\LostCauseSauce\Documents\CMPT2276Assignment01\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\Source.cpp(280,21): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\LostCauseSauce\Documents\CMPT2276Assignment01\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\Source.cpp(330,33): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\LostCauseSauce\Documents\CMPT2276Assignment01\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\Source.cpp(369,34): warning C4101: 'ex': unreferenced local variable
-  Assignment01Part02.vcxproj -> C:\Users\LostCauseSauce\Documents\CMPT2276Assignment01\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\x64\Debug\Assignment01Part02.exe
+D:\CMPT 2276\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\Source.cpp(180,37): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CMPT 2276\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\Source.cpp(340,21): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+D:\CMPT 2276\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\Source.cpp(387,29): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\CMPT 2276\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\Source.cpp(391,53): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CMPT 2276\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\Source.cpp(405,70): warning C4244: '=': conversion from 'double' to '_Ty2', possible loss of data
+          with
+          [
+              _Ty2=float
+          ]
+D:\CMPT 2276\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\Source.cpp(450,32): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CMPT 2276\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\Source.cpp(471,33): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\CMPT 2276\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\Source.cpp(520,34): warning C4101: 'ex': unreferenced local variable
+  Assignment01Part02.vcxproj -> D:\CMPT 2276\hw1-Phuong-Matthew-Abidali\Visual Studio Project files\Assignment01Part02\x64\Debug\Assignment01Part02.exe
