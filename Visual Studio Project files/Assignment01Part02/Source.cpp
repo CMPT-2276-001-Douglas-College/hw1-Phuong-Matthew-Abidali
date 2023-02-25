@@ -93,10 +93,10 @@ int main()
 		std::cout << endl << "To use Hamilton method enter 'H' to use Huntington-Hill method enter 'HH' :";
 		getline(cin, input);
 		std::transform(input.begin(),input.end(),input.begin(), [](unsigned char c) { return std::tolower(c); });
-		if (input == "hh") {
+		if (input == "h") {
 			try {
-				cout << endl << "Using HuntingtonHill Algorithm!" << endl << endl;
-				outputData = huntingtonHillApportionment(inputData, repCount);
+				cout << endl << "Using Hamilton Algorithm!" << endl << endl;
+				outputData = hamiltonApportionment(inputData, repCount);
 			}
 			catch (exception& e) {
 				std::cout << e.what() << endl;
@@ -107,11 +107,11 @@ int main()
 			}
 		}
 		else {
-			if (input != "h")
-				cout << "Unexpected input! Hamilton Algorithm will be used." << endl;
+			if (input != "hh")
+				cout << "Unexpected input! HuntingtonHill Algorithm will be used." << endl;
 			try {
-				cout << endl << "Using Hamilton Algorithm!" << endl << endl;
-				outputData = hamiltonApportionment(inputData, repCount);
+				cout << endl << "Using HuntingtonHill Algorithm!" << endl << endl;
+				outputData = huntingtonHillApportionment(inputData, repCount);
 			}
 			catch (exception& e) {
 				std::cout << e.what() << endl;
